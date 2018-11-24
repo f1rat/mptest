@@ -176,7 +176,7 @@ var $$ = Dom7;
 /*===============================================*/
 var mainView = myApp.view.create('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
-    dynamicNavbar: true,
+    dynamicNavbar: false,
     preloadPreviousPage: false,
     iosSwipeBack: false
 });
@@ -204,18 +204,7 @@ $$(document).on('pageInit', function (e)
 
 
 
-/*	
-	        if(localStorage.token == "" ){
-           //not logged in , redirect to login page
-            console.log("screwed it");
-  //         myApp.router.navigate('login.html');
-           }else{
-           // Login 
-//           mainView.router.loadPage('login.html');
-            console.log("made it");
-           }
 
-*/
 
 	
 	/* SLIDE SLICK 

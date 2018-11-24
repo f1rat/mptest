@@ -9067,6 +9067,8 @@
         selector = ($el.attr('id') ? ("#" + ($el.attr('id'))) : '') + ($el.attr('class') ? ("." + ($el.attr('class').replace(/ /g, '.').replace('.active', ''))) : '');
       }
 
+ 
+ /*
       // DynamicNavbar
       var $navbarEl;
       if (app.theme === 'ios' && view.params.iosDynamicNavbar && view.params.iosSeparateDynamicNavbar) {
@@ -9075,7 +9077,7 @@
           $navbarEl = $('<div class="navbar"></div>');
         }
       }
-
+*/
       // View Props
       Utils.extend(false, view, {
         app: app,

@@ -1,0 +1,25 @@
+div#scontainer {
+height:125px;
+}
+div.swiper-container {
+height:100%;
+}
+img.slideShowImg {
+height:100%;
+}
+img.productSlideShowImg {
+width:100%;
+}
+.ios .block-title {
+margin:15px 15px 10px;
+}
+.ios .list {
+margin:unset;
+}
+div#frontNewsListing {
+overflow:scroll;
+height:185px;
+}
+div.restaurant-img {
+height:315px !important;
+}

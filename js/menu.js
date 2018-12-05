@@ -1,0 +1,13 @@
+/* Fill out top menu items */
+function handle(e){
+	address=document.getElementById("leftMenuSearch").value;
+    if(e.keyCode === 13){
+   	searchBox(address);
+    }
+	return false;
+}
+function topmenufill(){
+var topmenudv = document.getElementById("leftmenu");
+topmenudv.innerHTML = '<div class="row"><div class="col-15"><a style="color:black;" href="#"><i class="flaticon-car"></i></a></div><div class="col-100">   <input type="text"  onkeypress="javascript:handle(event)" class="leftMenuSearch" placeholder="Search Cars for Sale" id="leftMenuSearch"></div><div class="col-15">   <a style="color:black;" href="#"><i class="flaticon-magnifying-glass"></i></a></div></div><div class="margin-top-30" style="text-align:center;"><img src="http://placehold.it/80x80/?text=USER" alt="user" width="80" height="80"></div><div class="text-small text-capitalize" id="userGreeting" style="text-align:center;"></div><div class="text-extrat-thiny gray-text text-capitalize icon-location" id="loginText" style="text-align:center;"></div><ul><li><div class="item-content"><div class="item-media"><i class="flaticon-home"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/index/">Home</a></div>   </div></div></li><li><div class="item-content">   <div class="item-media"><i class="flaticon-website"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/autocat/" class="panel-close no-animation">Machine Categories</a></div>   </div></div></li><li><div class="item-content">   <div class="item-media"><i class="flaticon-website"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/add-product/" class="panel-close no-animation">Add New Machine</a></div>   </div></div></li><li><div class="item-content">   <div class="item-media"><i class="flaticon-info"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/how-it-works/" class="panel-close no-animation">How It Works ?</a></div>   </div></div></li><li><div class="item-content">   <div class="item-media"><i class="flaticon-idea"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/faqs/" class="panel-close no-animation">Client FAQs</a></div>   </div></div></li><li><div class="item-content">   <div class="item-media"><i class="flaticon-blog"></i>   </div>   <div class="item-inner no-margin"><div class="item-title text-small">   <a style="color:black;" href="/blog/" class="panel-close no-animation">Blog</a></div></div></div></li></ul>';}
+topmenufill();
+getUserData();

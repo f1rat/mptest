@@ -67,7 +67,6 @@
         <icon src="resources/ios/icon/icon-small.png" platform="ios" width="29" height="29" />
         <icon src="resources/ios/icon/icon-small@2x.png" platform="ios" width="58" height="58" />
         <icon src="resources/ios/icon/icon-small@3x.png" platform="ios" width="87" height="87" />
-        <splash src="resources/ios/splash/Default-2436h.png" platform="ios" width="1125" height="2436" />
     </platform>
 
 </widget>

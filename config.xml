@@ -7,7 +7,7 @@
     <author email="info@makinepark.net" href="http://makinepark.net">
 	Makine Park
     </author>
-    <content src="index.html" />
+    
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

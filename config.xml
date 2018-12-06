@@ -22,7 +22,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <preference name="BackupWebStorage" value="none" />
-        <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" height="2436"/>
+        <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
         <preference name="StatusBarOverlaysWebView" value="true" />
         <preference name="StatusBarBackgroundColor" value="#000000" />
         <preference name="StatusBarStyle" value="lightcontent" />

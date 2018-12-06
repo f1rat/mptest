@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="net.makinepark.makinepark" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Makine Park</name>
+    <description>
+	Tüm sıfır ve ikinci el iş makinesi ilanları
+    </description>
+    <author email="info@makinepark.net" href="http://makinepark.net">
+	Makine Park
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+        <preference name="BackupWebStorage" value="none" />
+        <preference name="StatusBarOverlaysWebView" value="true" />
+        <preference name="StatusBarBackgroundColor" value="#000000" />
+        <preference name="StatusBarStyle" value="lightcontent" />
+    </platform>
+    <preference name="DisallowOverscroll" value="true" />
+
+	<preference name="phonegap-version" value="cli-7.1.0" />
+	<plugin name="cordova-plugin-wkwebview-engine" spec="~1.0.1" />
+	<engine name="ios" spec="^4.5.4" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.1" />
+
+    <platform name="android">
+        <icon src="resources/android/icon/ldpi.png" density="ldpi" />
+        <icon src="resources/android/icon/mdpi.png" density="mdpi" />
+        <icon src="resources/android/icon/hdpi.png" density="hdpi" />
+        <icon src="resources/android/icon/xhdpi.png" density="xhdpi" />
+        <icon src="resources/android/icon/xxhdpi.png" density="xxhdpi" />
+        <icon src="resources/android/icon/xxxhdpi.png" density="xxxhdpi" />
+        <splash src="resources/android/screen/drawable-land-ldpi-screen.png" density="land-ldpi" />
+        <splash src="resources/android/screen/drawable-land-mdpi-screen.png" density="land-mdpi" />
+        <splash src="resources/android/screen/drawable-land-hdpi-screen.png" density="land-hdpi" />
+        <splash src="resources/android/screen/drawable-land-xhdpi-screen.png" density="land-xhdpi" />
+        <splash src="resources/android/screen/drawable-land-xxhdpi-screen.png" density="land-xxhdpi" />
+        <splash src="resources/android/screen/drawable-land-xxxhdpi-screen.png" density="land-xxxhdpi" />
+        <splash src="resources/android/screen/drawable-port-ldpi-screen.png" density="port-ldpi" />
+        <splash src="resources/android/screen/drawable-port-mdpi-screen.png" density="port-mdpi" />
+        <splash src="resources/android/screen/drawable-port-hdpi-screen.png" density="port-hdpi" />
+        <splash src="resources/android/screen/drawable-port-xhdpi-screen.png" density="port-xhdpi" />
+        <splash src="resources/android/screen/drawable-port-xxhdpi-screen.png" density="port-xxhdpi" />
+        <splash src="resources/android/screen/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi" />
+    </platform>
+
+    <platform name="ios">
+        <icon src="resources/ios/icon/icon.png" platform="ios" width="57" height="57" />
+        <icon src="resources/ios/icon/icon@2x.png" platform="ios" width="114" height="114" />
+        <icon src="resources/ios/icon/icon-40.png" platform="ios" width="40" height="40" />
+        <icon src="resources/ios/icon/icon-40@2x.png" platform="ios" width="80" height="80" />
+        <icon src="resources/ios/icon/icon-50.png" platform="ios" width="50" height="50" />
+        <icon src="resources/ios/icon/icon-50@2x.png" platform="ios" width="100" height="100" />
+        <icon src="resources/ios/icon/icon-60.png" platform="ios" width="60" height="60" />
+        <icon src="resources/ios/icon/icon-60@2x.png" platform="ios" width="120" height="120" />
+        <icon src="resources/ios/icon/icon-60@3x.png" platform="ios" width="180" height="180" />
+        <icon src="resources/ios/icon/icon-72.png" platform="ios" width="72" height="72" />
+        <icon src="resources/ios/icon/icon-72@2x.png" platform="ios" width="144" height="144" />
+        <icon src="resources/ios/icon/icon-76.png" platform="ios" width="76" height="76" />
+        <icon src="resources/ios/icon/icon-76@2x.png" platform="ios" width="152" height="152" />
+        <icon src="resources/ios/icon/icon-small.png" platform="ios" width="29" height="29" />
+        <icon src="resources/ios/icon/icon-small@2x.png" platform="ios" width="58" height="58" />
+        <icon src="resources/ios/icon/icon-small@3x.png" platform="ios" width="87" height="87" />
+        <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
+    </platform>
+
+</widget>

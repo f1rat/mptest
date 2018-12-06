@@ -8,7 +8,6 @@
 	Makine Park
     </author>
     <content src="index.html" />
-    <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -18,7 +17,19 @@
     <platform name="android">
         <allow-intent href="market:*" />
     </platform>
- 
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+		<allow-intent href="itms-apps:*" />
+        <preference name="BackupWebStorage" value="none" />
+        <preference name="StatusBarOverlaysWebView" value="true" />
+        <preference name="StatusBarBackgroundColor" value="#000000" />
+        <preference name="StatusBarStyle" value="lightcontent" />
+    </platform>
+    <preference name="DisallowOverscroll" value="true" />
+	<preference name="phonegap-version" value="cli-7.1.0" />
+	<plugin name="cordova-plugin-wkwebview-engine" spec="~1.0.1" />
+	<engine name="ios" spec="^4.5.4" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.1" />
 
     <platform name="android">
         <icon src="resources/android/icon/ldpi.png" density="ldpi" />

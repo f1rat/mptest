@@ -32,18 +32,18 @@
         <icon src="resources/android/icon/xhdpi.png" density="xhdpi" />
         <icon src="resources/android/icon/xxhdpi.png" density="xxhdpi" />
         <icon src="resources/android/icon/xxxhdpi.png" density="xxxhdpi" />
-        <splash src="resources/android/screen/drawable-land-ldpi-screen.png" density="land-ldpi" />
-        <splash src="resources/android/screen/drawable-land-mdpi-screen.png" density="land-mdpi" />
-        <splash src="resources/android/screen/drawable-land-hdpi-screen.png" density="land-hdpi" />
-        <splash src="resources/android/screen/drawable-land-xhdpi-screen.png" density="land-xhdpi" />
-        <splash src="resources/android/screen/drawable-land-xxhdpi-screen.png" density="land-xxhdpi" />
-        <splash src="resources/android/screen/drawable-land-xxxhdpi-screen.png" density="land-xxxhdpi" />
-        <splash src="resources/android/screen/drawable-port-ldpi-screen.png" density="port-ldpi" />
-        <splash src="resources/android/screen/drawable-port-mdpi-screen.png" density="port-mdpi" />
-        <splash src="resources/android/screen/drawable-port-hdpi-screen.png" density="port-hdpi" />
-        <splash src="resources/android/screen/drawable-port-xhdpi-screen.png" density="port-xhdpi" />
-        <splash src="resources/android/screen/drawable-port-xxhdpi-screen.png" density="port-xxhdpi" />
-        <splash src="resources/android/screen/drawable-port-xxxhdpi-screen.png" density="port-xxxhdpi" />
+		<splash qualifier="land-ldpi" src="resources/android/screen/drawable-land-ldpi-screen.png" />
+		<splash qualifier="land-mdpi" src="resources/android/screen/drawable-land-mdpi-screen.png" />
+		<splash qualifier="land-hdpi" src="resources/android/screen/drawable-land-hdpi-screen.png" />
+		<splash qualifier="land-xhdpi" src="resources/android/screen/drawable-land-xhdpi-screen.png" />
+		<splash qualifier="land-xxhdpi" src="resources/android/screen/drawable-land-xxhdpi-screen.png" />
+		<splash qualifier="land-xxxhdpi" src="resources/android/screen/drawable-land-xxxhdpi-screen.png" />
+		<splash qualifier="port-ldpi" src="resources/android/screen/drawable-port-ldpi-screen.png" />
+		<splash qualifier="port-mdpi" src="resources/android/screen/drawable-port-mdpi-screen.png" />
+		<splash qualifier="port-hdpi" src="resources/android/screen/drawable-port-hdpi-screen.png" />
+		<splash qualifier="port-xhdpi" src="resources/android/screen/drawable-port-xhdpi-screen.png" />
+		<splash qualifier="port-xxhdpi" src="resources/android/screen/drawable-port-xxhdpi-screen.png" />
+		<splash qualifier="port-xxxhdpi" src="resources/android/screen/drawable-port-xxxhdpi-screen.png" />
     </platform>
 
     <platform name="ios">

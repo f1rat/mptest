@@ -48,6 +48,7 @@ margin:15px 15px 10px;
 }
 .ios .list {
 margin:unset;
+font-size: unset;
 }
 div#frontNewsListing {
 overflow:scroll;
@@ -64,6 +65,16 @@ height:315px !important;
 div.loginWarning {
 line-height: 60px;
 text-align: center;
+}
+.md .navbar {
+    background: #F1C40F;
+}
+
+img.menuavatar {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    overflow: hidden;
 }
 .fading {
     -webkit-animation-duration: 5s;
@@ -105,21 +116,115 @@ background-color:white;
 }
 
 input.leftMenuSearch {
-width: 100%;
-border: 1px dotted gray;
+border: 2px dotted white;
 line-height: 40px;
 padding-left: 10px;
+margin-right: 10px;
 margin-bottom: 5%;
-padding-left: 10px;
+display:inline-block;
+width: 83%;
+color:black !important;
 }
 
-div#leftmenu {
-margin:15px 0;
+div.right {
+    width: 44px;
 }
 
+label.descriptionDetailedSearchForm {
+    float:left;
+    width: 100%;
+    padding : 10px;
+}
+
+input.detailedSearchButton {
+    line-height: 2.5em;
+    background-color: rgba(255,255,255,0);
+    color:black;
+    font-size: 16px;
+    border: 2px dotted white;
+    margin-left: 10px;
+    margin-right: -10px;
+    width: 94%;
+}
+
+select.detailedSearchSelect {
+    line-height: 30px;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    margin:10px;
+    margin-top:0;
+    border-bottom: 2px dotted white;
+    width: 93%;
+}
+
+a.detailedSearchPopupClose {
+    color:black;
+}
+
+div.detailedSearch {
+    background-color: #F1C40F;
+}
+
+div.detailedSearchNavbar {
+    background-color: #F1C40F !important;
+    border-bottom : 1px dotted black;
+}
+
+button#saveForm {
+    line-height: 2em;
+    background-color: rgba(255,255,255,0);
+    color:white;
+    border: 2px dotted white;
+}
+
+input.detailedSearchInputHalf {
+    line-height: 30px;
+    background-color: rgba(255,255,255,0);
+    margin:10px;
+    margin-top:0;
+    border: 2px dotted white;
+    width: 40%;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    text-align: center;
+}
+
+li.detailedSearchLi {
+    list-style: none;
+    margin-bottom: 10px;
+    line-height: 25px;
+    vertical-align: middle;
+    float: left;
+    width: 100%;
+}
+
+ul.detailedSearchLi {
+    padding : 20px;
+}
+
+a.searchMagnifier {
+  color:black;
+    height: 40px;  
+}
+
+.magnifierIcon {
+    vertical-align: middle;
+}
+
+div.searchStuff {
+width:100%;
+}
+
+div.menucontent {
+background: #F1C40F;
+color:white;
+}
 
 div#userGreeting, div#loginText {
 color:black;
+text-align: center;
 }
 
 div#loginText {
@@ -153,4 +258,73 @@ img.profilePic {
 border-radius: 50%;
 margin-bottom: 5%;
 border: 1px solid darkgoldenrod;
+}
+
+div#searchResultsSearchDiv {
+line-height: 2.3em;
+float:left;
+width: 100%;
+}
+
+.listingitemdata {
+    padding-left: 10px;
+    width: 100%;
+}
+
+.searchResultListingTitle {
+    display: inline-block;
+    font-weight: bold;
+}
+
+.searchResultListingPrice {
+    display:inline-block;
+    float:right;
+    padding-right: 10px;
+    font-weight: bold;
+    color:darkgray
+}
+
+input.leftMenuSearch::placeholder {
+    color: #000000 !important;
+}
+
+.color-black {
+    color:black;
+}
+
+.sresultstop {
+    width: 100%;
+}
+
+input#searchResultsSearchKeyword {
+line-height: 2.3em;
+float:left;
+border: 1px dashed gray;
+width: 75%;
+margin: 2%;
+padding-left: 10px;
+}
+
+.menuicon {
+    color:black;
+    font-size: 14px;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+    
+
+li.menuli {
+    vertical-align: middle;
+    margin-top:10px;
+    border: 1px solid white;
+    line-height: 30px;
+}
+
+ul.menul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#leftmenu {
+    margin:0;
 }

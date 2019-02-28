@@ -38,34 +38,31 @@ var loginPopup = app.popup.create({
   backdrop : true,
   closeByBackdropClick : false,
   animate : true,
-  /*
-  content: '<div class="popup">'+
-              '<div class="block">'+
-                '<p>Popup created dynamically.</p>'+
-                '<p><a href="#" class="link popup-close">Close me</a></p>'+
-              '</div>'+
-            '</div>',
-  */
-  content : '<div class="popup"><a href="#" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Back</a><div class="loginWarning"><p class="fading">You must log in first</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="email" class="text-thiny" placeholder="E-mail" id="usermail"></div></div></div></li><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="text" class="text-thiny" placeholder="Password" id="userpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Forgot your Password ?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;">Login in</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">You don\'t have an account? Register now</a></div></form></div>',
+  content : '<div class="popup"><a href="#" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Back</a><div class="loginWarning"><p class="fading">You must log in first</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="email" class="text-thiny" placeholder="E-mail" id="loginusername"></div></div></div></li><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="text" class="text-thiny" placeholder="Password" id="loginuserpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Forgot your Password ?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;text-transform:none;">Login</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">You don\'t have an account? Register now</a></div></form></div>',
   // Events
   on: {
     open: function (popup) {
-      console.log('Popup open');
+      //console.log('Popup open');
     },
     opened: function (popup) {
-      console.log('Popup opened');
+      //console.log('Popup close');
     },
   }
 });
-// Events also can be assigned on instance later
-loginPopup.on('close', function (popup) {
-  console.log('Popup close');
-});
-loginPopup.on('closed', function (popup) {
-  console.log('Popup closed');
-  app.router.back();
-});
 
+var detailedSearch = app.popup.create({
+  backdrop : true,
+  closeByBackdropClick : false,
+  animate : true,
+  on: {
+    open: function (popup) {
+      //console.log('Popup open');
+    },
+    opened: function (popup) {
+      //console.log('Popup close');
+    },
+  }
+});
 
 
 //////////////////////////////////////////////////////
@@ -122,10 +119,9 @@ pushState: false
 
 //Login
 function login(){
-
+    $("#loginbutton").text("Authenticating...");
     var email= $.trim($("#loginusername").val());
     var password= $.trim($("#loginuserpass").val());
-    $("#loginbutton").text("Authenticating...");
     var url = "http://www.makinepark.net/index.php/tokenapi/authenticate/?";
     var loginString = "username="+email+"&password="+password+"&key=4PcY4Dku0JkuretevfEPMnG9BGBPi";
 	localStorage.user = "";
@@ -141,9 +137,11 @@ function login(){
         async: false,
         success: function(data){
             if(data.message == "Results available") {
+                console.log(data);
             $("#loginbutton").text("Login Success!");
             localStorage.token = data.token;
             localStorage.user = data.user_data.name_surname;
+            loginPopup.close();
 			app.router.back({
                     force: true//,
             //        ignoreCache: true
@@ -152,6 +150,7 @@ function login(){
                 					
             }
             else {
+                console.log(data);
                 $("#loginbutton").text("Login Failed");
            }
         }        
@@ -814,17 +813,28 @@ function recordSearch(s) {
 //
 }
 
+//Search results page search function
+function searchResultsSearch(){
+    var s = document.getElementById("searchResultsSearchKeyword").value;
+    searchBox(s);
+}
 
 //Search Box Function
 function searchBox(s){
 app.panel.close();
+
 localStorage.searchKeyword = s;
-app.router.navigate('/searchresults/');
+if (app.views.main.router.url == "/searchresults/") {
+self.app.router.navigate(app.views.main.router.url, {reloadCurrent: true});    
+} else {
+app.router.navigate('/searchresults/', { replace: true, force: true });
+}
 }
 
 //Do search
 function doSearch(s){
 var collector = "";
+$('#searchResultsSearchKeyword').val(localStorage.searchKeyword);
 localStorage.removeItem("localStorage.searchKeyword");
 recordSearch(s);
 var url = 'http://www.makinepark.net/index.php/api/json/en?search={"page_num":0,"v_search_option_quicker":"'+s+'"}'
@@ -846,7 +856,7 @@ var url = 'http://www.makinepark.net/index.php/api/json/en?search={"page_num":0,
         } else {
         var price = details.field_37;
         }        
-	        collector += '<li><a onclick="passProductID('+searchResultsArray[i].listing.id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+searchResultsArray[i].listing.image_filename+'" width="80"></div><div class="item-data"><div class=""><div class="item-title-detail">'+details.field_10+'</div><div class=""></div></div><div class="">'+details.field_83+','+details.field_81+' model</div><div class="">'+price+' TL</div></div></a></li>';
+	        collector += '<li class="searchResultsListing"><a onclick="passProductID('+searchResultsArray[i].listing.id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+searchResultsArray[i].listing.image_filename+'" width="80"></div><div class="item-data listingitemdata"><div class="item-title-detail searchResultListingTitle">'+details.field_10+'</div><div class="searchResultListingPrice">'+price+' TL</div><div class="">'+details.field_83+', '+details.field_81+' model</div></div></a></li>';
 		}
 		collector += "</ul>";
 		$('#seachResutlsDiv').html(collector);
@@ -856,4 +866,97 @@ var url = 'http://www.makinepark.net/index.php/api/json/en?search={"page_num":0,
 		
 }
 	});
+}
+
+//Do detailed search 
+function doSearchDetail(){
+var collector = "";
+
+var machineType = $('#newlistingCategory').val();    
+var machineStatus = $('#element_4').val();    
+var priceMin = $('#fiyatMin').val();    
+var priceMax = $('#fiyatMax').val();    
+var kmMin = $('#kmMin').val();    
+var kmMax = $('#kmMax').val();    
+var modelMin = $('#modelMin').val();    
+var modelMax = $('#modelMax').val();        
+var lang = "2";
+    
+    if (lang == "2") {
+        switch (machineStatus) {
+            case "0":
+                machineStatus = "";
+                break;
+            case "1":
+                machineStatus = "Satılık";
+                break;
+            case "2":
+                machineStatus = "Kiralık";
+                break;
+        }
+    } else if (lang == "1"){
+        switch (machineStatus) {
+            case "0":
+                machineStatus = "";
+                break;
+            case "1":
+                machineStatus = "For Sale";
+                break;
+            case "2":
+                machineStatus = "For Rent";
+                break;
+        }
+    }
+
+console.log(machineType);
+console.log(machineStatus);
+console.log(priceMin);
+console.log(priceMax);
+console.log(kmMin);
+console.log(kmMax);
+/*
+console.log(modelMin);
+console.log(modelMax);
+*/    
+   
+	
+	var collector = "";
+    //URL With km
+    /*
+    var url = "http://www.makinepark.net/mobile-functions.php?action=detailedSearch&machineType="+machineType+"&machineStatus="+machineStatus+"&priceMin="+priceMin+"&priceMax="+priceMax+"&kmMin="+kmMin+"&kmMax="+kmMax+"&modelMin="+modelMin+"&modelMax="+modelMax+"&language="+lang;
+    */
+    var url = "http://www.makinepark.net/mobile-functions.php?action=detailedSearch&machineType="+machineType+"&machineStatus="+machineStatus+"&priceMin="+priceMin+"&priceMax="+priceMax+"&kmMin="+kmMin+"&kmMax="+kmMax+"&language="+lang;
+    console.log("url");
+    console.log(url);
+    console.log("/url");
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        async: false,
+        success: function(data){
+        console.log(data);
+        collector = "<ul>";
+        for(var i=0;i<data.length;i++){
+            console.log(i);
+        var details = data[i].json_object;
+        details = details.replace(/field_/g,'');
+        details = $.parseJSON(details);	
+        if (details[36] != "") {
+        var price = details[36];
+        } else {
+        var price = details[37];
+        }
+        collector += '<li class="searchResultsListing"><a onclick="passProductID('+data[i].property_id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+data[i].image_filename+'" width="80"></div><div class="item-data listingitemdata"><div class="item-title-detail searchResultListingTitle">'+details[10]+'</div><div class="searchResultListingPrice">'+price+' TL</div><div class="">'+details[83]+','+details[81]+' model</div></div></a></li>';
+        }
+        collector += '</ul>';
+        var serpil = document.getElementById('seachResutlsDiv');
+        console.log("serpil");
+        console.log(serpil.html);
+        $("#seachResutlsDiv").html("");
+        $("#seachResutlsDiv").html(collector);
+        }
+});
 }

@@ -116,6 +116,15 @@ routes = [
       }
     },
     {
+      path: '/detailedsearchresults/',
+      url: './pages/detailed-search-results.html',
+      on: {
+      pageInit: function (e, page) {
+            doSearchDetail();
+      },
+      }
+    },
+    {
       path: '/remember-password/',
       url: './pages/remember-password.html'
     },

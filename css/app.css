@@ -328,3 +328,7 @@ ul.menul {
 #leftmenu {
     margin:0;
 }
+
+.noscrollhidden {
+  overflow: hidden;
+}

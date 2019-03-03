@@ -29,9 +29,18 @@ var app  = new Framework7({
 // Init/Create main view
 var mainView = app.views.create('.view-main', {
   url: '/',
+  cache: true,
   preloadPreviousPage: false,
   iosSwipeBack: false
 });
+
+
+//Get browser locale
+    navigator.globalization.getPreferredLanguage(
+        function (language) {alert('language: ' + language.value + '\n');},
+        function () {alert('Error getting language\n');}
+    );  
+
 
 //Login popup
 var loginPopup = app.popup.create({

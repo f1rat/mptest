@@ -193,7 +193,6 @@ else { echo json_encode("no-result");
 }
 
 
-
 //Do detailed search
 else if ($postdata == 'detailedSearch') {
 $lang = htmlspecialchars($_GET["language"]);
@@ -260,8 +259,34 @@ $sql = "SELECT property_lang.property_id,property_lang.json_object,property_lang
 
 }
 
+//Get a specific user's listings
+else if ($postdata == 'getUserListing') {
+$userid = htmlspecialchars($_GET["user"]);
+$lang = htmlspecialchars($_GET["language"]);
+$dat = Array();
+$dato = Array();
+$data = Array();
+$sq = "SELECT `id` FROM `user` WHERE mail='$userid'";
+$resul = $con->query($sq);
+    if ($resul->num_rows > 0) {
+        while ($row = $resul->fetch_assoc()){
+            $dat = $row;
+        }
+    }
+$karaf = "8";
+$hesql = "SELECT `property_id` FROM `property_user` WHERE `user_id` = $karaf";
+$resulto = $con->query($hesql);
 
-
+    if ($resulto->num_rows > 0) {
+        while ($rowel = $resulto->fetch_assoc()){ $dato[] = $rowel; }
+        foreach ($dato as $value) {
+ $sql = "SELECT property_lang.property_id,property_lang.json_object,property_lang.field_36_int,property_lang.field_37_int,property_lang.field_55_int,property_lang.field_82_int, property.image_filename FROM property_lang LEFT JOIN property ON property.id = property_lang.property_id WHERE property_lang.property_id = $value[property_id] AND language_id='$lang' AND property.is_activated='1'";
+$result = $con->query($sql);
+if ($result->num_rows > 0) { while($row = $result->fetch_assoc()) { $data[] = $row; }  }
+}
+    echo json_encode($data);
+    } else { echo json_encode("no-result");}
+}
 
 
 

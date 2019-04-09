@@ -107,6 +107,15 @@ routes = [
       url: './pages/register.html'
     },
     {
+      path: '/inquire/',
+      url: './pages/inquiry.html',
+      on : {
+        pageInit: function (e, page) {
+            doInquiry(localStorage.productID);
+    }
+    }
+    },
+    {
       path: '/searchresults/',
       url: './pages/search-results.html',
       on: {

@@ -31,6 +31,46 @@
   font-feature-settings: "liga";
 }
 
+.tabbar {
+    position: fixed;
+    bottom: 0px;
+}
+
+.toolbar-inner {
+    padding: 0px !important;
+}
+
+.md .toolbar {
+    top : unset;
+}
+
+a.twins {
+    width : 49%;
+    display: inline-block;
+    line-height: 37px !important;
+    height: 39px !important;
+    background-color: #f1c40f !important;
+    font-weight: bold;
+}
+
+.ios .tabbar a.tab-link-active, .ios .tabbar-labels a.tab-link-active {
+    color:white;
+    font-weight: bold;
+    background: #f1c40f;
+    border: none;
+}
+
+a.active {
+    color:white;
+    font-weight: bold;
+    background: #f1c40f;
+    border: none;
+}
+
+.ios .button {
+    border-radius: 0px !important;
+    border: none !important;
+}
 div#scontainer {
 height:125px;
 }
@@ -311,7 +351,22 @@ padding-left: 10px;
     padding-right: 20px;
     padding-left: 20px;
 }
-    
+
+.blogheaderimage {
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.demo-card-header-pic {
+    border:none;
+    -webkit-box-shadow : none !important;
+    box-shadow: none !important;
+}
+
+.card-header:after {
+    display:none;
+}
 
 li.menuli {
     vertical-align: middle;

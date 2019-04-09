@@ -34,14 +34,6 @@ var mainView = app.views.create('.view-main', {
   iosSwipeBack: false
 });
 
-
-//Get browser locale
-    navigator.globalization.getPreferredLanguage(
-        function (language) {alert('language: ' + language.value + '\n');},
-        function () {alert('Error getting language\n');}
-    );  
-
-
 //Login popup
 var loginPopup = app.popup.create({
   backdrop : true,
@@ -146,7 +138,6 @@ function login(){
         async: false,
         success: function(data){
             if(data.message == "Results available") {
-                console.log(data);
             $("#loginbutton").text("Login Success!");
             localStorage.token = data.token;
             localStorage.user = data.user_data.name_surname;
@@ -235,6 +226,15 @@ function getSlides(){
 		}     
     });
 }
+
+function getSlideso(){
+    
+		
+		var collector = "<div data-pagination='{\"el\": \".swiper-pagination\"}' data-space-between=\"0\" class=\"swiper-container swiper-init loop\"><div class=\"swiper-wrapper\" id=\"mainsliderhost\">";
+		collector += "<div class=\"swiper-slide\"><img src=\"slides\\slide2.jpg\" class=\"slideShowImg\"></div>";
+        collector += "</div><div class=\"swiper-pagination\"></div></div>";
+		$("#scontainer").append(collector);
+		}
 
 //Get homepage news
 function getLatestNews(){
@@ -366,9 +366,8 @@ mainView.router.navigate('/product-single/')
 //Display full product info
 function displayProduct() {
 var propertyID = localStorage.propertyID;
-localStorage.removeItem(localStorage.propertyID);
 var lang = "2";
-    var url = "http://www.makinepark.net/mobile-functions.php?action=getSinglePropertyData&propertyID="+propertyID+"&language="+lang;
+    var url = "http://www.makinepark.net/mobile-functions.php?action=getSinglePropertyData&propertyID="+localStorage.propertyID+"&language="+lang;
     	$.ajax({
         type: "POST",
         dataType: "json",
@@ -376,7 +375,8 @@ var lang = "2";
         cache: false,
         url: url,
         async: false,
-        success: function(data){
+        success: function(data){           
+            
         var details = data[0]["json_object"];
         details = details.replace(/field_/g,'');
         details = $.parseJSON(details);	
@@ -435,6 +435,7 @@ var lang = "2";
 		
 		}
 });
+    checkFav();
 }
 
 //Display categories list
@@ -466,13 +467,11 @@ function getCatListing(){
         });
 }
 
-
 //Store chosen category
 function storeMachine(e){
 localStorage.machinestoList = machineCatList[e];
 mainView.router.navigate('/machinecatlisting/');
 }
-
 
 //Get all machines under chosen category
 function getAllMachines(){
@@ -497,13 +496,18 @@ function getAllMachines(){
         } else {
         var price = details[37];
         }
-        collector += '<li><a onclick="passProductID('+data[i].property_id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+data[i].image_filename+'" width="80"></div><div class="item-data"><div class=""><div class="item-title-detail">'+details[10]+'</div><div class=""></div></div><div class="">'+details[83]+','+details[81]+' model</div><div class="">'+price+' TL</div></div></a></li>';
+        var picUrl = data[i].image_filename;
+        if (picUrl == null) {
+            picUrl = "no-image.jpg";
+        }
+        collector += '<li><a onclick="passProductID('+data[i].property_id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+picUrl+'" width="80"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+details[10]+'</div><div class="item-after"></div></div><div class="item-subtitle">'+details[83]+','+details[81]+' model</div><div class="item-text">'+price+' TL</div></div></a></li>';
         }
         collector += '</ul>';
         $("#machine-cat-listing").html(collector);
         }
 });
 }
+
 
 //Get categories list and populate dropdown
 var machineCatList=[];
@@ -723,7 +727,6 @@ $(document).on('change', '#new-image', function()
 
 }
 
-
 //File upload function - INCOMPLETE
 function uploadFiles(f) {
 	var x = document.getElementById("new-image").files;
@@ -731,15 +734,14 @@ function uploadFiles(f) {
 	submitNewListing(u);
 }
 
-
 //Menu Greeting Function
 function getUserData() {
 if (localStorage.getItem("token") === null) {
-$("#userGreeting").html("Hello, dear visitor");
+$("#userGreeting").html("Merhaba, sayın ziyaretçi");
 $("#loginText").html("<a href='/login/' class='panel-close no-animation' style='color:black;'>Login</a> / <a href='/register/' class='panel-close no-animation' style='color:black;'>Register</a></a>");
 } else {
-$("#userGreeting").html("Hello, dear "+localStorage.user+"");
-$("#loginText").html("<p><a href='/profile/' class='panel-close no-animation' style='color:black;'>Profile</a> / <a href='#' onclick='logoutUser();' class='panel-close no-animation' style='color:black;'>Logout</a></p>");
+$("#userGreeting").html("Merhaba, sayın "+localStorage.user+"");
+$("#loginText").html("<p><a href='/profile/' class='panel-close no-animation' style='color:black;'>Profiliniz</a> / <a href='#' onclick='logoutUser();' class='panel-close no-animation' style='color:black;'>Çıkış</a></p>");
 }
 }
 
@@ -969,3 +971,243 @@ console.log(modelMax);
         }
 });
 }
+
+//Do Inquiry
+function doInquiry(s){
+var collector = "";
+var whichProduct = localStorage.productID;
+fetch('http://makinepark.net/index.php/property/'+ whichProduct +'/tr/satilik_forklift')
+    .then(
+    function(response) {
+        // When the page is loaded convert it to text
+        return response.text()
+    })
+    .then(function(html) {
+        // Initialize the DOM parser
+        var parser = new DOMParser();
+        // Parse the text
+        var doc = parser.parseFromString(html, "text/html");
+        // You can now even select part of that html as you would in the regular DOM 
+        // Example:
+        var docArticle = doc.querySelector('#form').innerHTML;
+        
+        $('#inqContent').append(docArticle);
+        $("input.hidden").css("display","none");
+        $("div.panel-heading").html("<h2>İletişim Formu</h2><p style='text-align:center;margin-left:10%;margin-right:10%;'>Lütfen tüm alanları eksiksiz doldurduğunuzdan emin olunuz.</p><p id='messageDisplay' style='margin-left:10%;margin-right:10%;font-weight:bold;color:red;'></p>");
+        $("h2").css("text-align","center");
+        $("input.form-control").css({"line-height":"24px","font-size":"16px","margin":"5%","border-bottom":"1px dotted black","padding-left":"10px","width":"90%"});
+        $("textarea#message").css({"height":"6em","font-size":"16px","margin":"5%","border-bottom":"1px dotted black","padding-left":"10px","width":"90%"});
+        $('img').css("margin-left","15%");
+        $('button').css({"height":"3em","width":"60%","margin-left":"20%","margin-top":"5%","background-color":"#f1c40f","color":"white","font-weight":"bold","font-size":"1.1em"});
+        $('#inqContent').append("<input type='button' value='hele' onclick='javascript:sendInquiryForm()'/>");
+        sendInquiryForm();
+    })
+    .catch(function(err) {  
+        console.log('Failed to fetch page: ', err);  
+    });
+    
+}
+
+//Send Inquiry Form
+function sendInquiryForm() {
+    var selim = document.getElementById("inqForm");
+    selim.onsubmit = function (){
+    event.preventDefault();
+    $.ajax({
+      url: $('#inqForm').attr('action'),
+      type: 'POST',
+      data : $('#inqForm').serialize(),
+      success: function(data){
+          console.log(data);
+        var parser = new DOMParser();
+        // Parse the text
+        var doc = parser.parseFromString(data, "text/html");
+          console.log(doc);
+        var docArti = doc.querySelector('.alert');
+          if (docArti == null) {
+              $('#messageDisplay').css('color','green');
+              $('#messageDisplay').html('<p>Mesajınız İletildi.</p>');
+          } else {
+          var docArticle = docArti.innerHTML;
+          console.log("docArticle");
+          console.log(docArticle);
+          $('#messageDisplay').html(docArticle);
+              }
+      }
+    });
+    return false;
+
+ };   
+    localStorage.removeItem("localStorage.productID");
+
+};
+
+//List Favorites
+function getFavs(){
+        var loginString = "token="+localStorage.token+"&lang_code='tr'";
+        var url = "http://www.makinepark.net/index.php/tokenapi/favorites/?"+loginString;
+    console.log(url);
+    $.ajax({
+        type: "GET",
+        dataType : "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        data: loginString,
+        async: false,
+        success: function(data){
+            if(data.message == "Results available") {
+                console.log(data); 
+                if (data.results.length > 0 ) {
+        var resultcount = data.results.length;
+        var collector = "";
+        for (i = 0; i < resultcount; i++) { 
+        if (data.results[i].listing.image_filename == null){
+        data.results[i].listing.image_filename = "no_image.jpg";
+        }
+        collector += '<li><a onclick="passProductID('+data.results[i].listing.id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+data.results[i].listing.image_filename+'" width="80"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+data.results[i].listing.json_object.field_10+'</div><div class="item-after"></div></div><div class="item-subtitle">'+data.results[i].listing.json_object.field_83+', '+data.results[i].listing.json_object.field_81+' model</div><div class="item-text">'+data.results[i].listing.field_36_int+' TL</div></div></a></li>';
+        }
+        $("#favsContainer").html('<ul>'+collector+'</ul>');        
+                         
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                } else {
+                    $("#favsContainer").html("<p>Favori ilanınız bulunmuyor</p>");
+                }
+                
+            }
+            else {
+                console.log(data);
+                $("#favsContainer").html(data);
+           }
+        }        
+    });
+} 
+
+//Add Favorites
+function addFav(w){
+    logChk();
+        var loginString = "token="+localStorage.token+"&lang_code='tr'&property_id="+w;
+        var url = "http://www.makinepark.net/index.php/tokenapi/favorites/POST/?"+loginString;
+    console.log(url);
+    $.ajax({
+        type: "GET",
+        dataType : "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        data: loginString,
+        async: false,
+        success: function(data){
+            console.log(data);
+        $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:remFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favori Listenizde</a>');
+        }        
+    });
+} 
+
+//Remove Favorites
+function remFav(w){
+    logChk();
+        var loginString = "token="+localStorage.token+"&lang_code='tr'&property_id="+w;
+        var url = "http://www.makinepark.net/index.php/tokenapi/favorites/DELETE/?"+loginString;
+    console.log(url);
+    $.ajax({
+        type: "GET",
+        dataType : "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        data: loginString,
+        async: false,
+        success: function(data){
+            console.log(data);
+        $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:addFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favorilere Ekle</a>');
+        }        
+    });
+} 
+
+//Check if product exists in favs
+function checkFav(g){
+        var loginString = "token="+localStorage.token+"&lang_code='tr'";
+        var url = "http://www.makinepark.net/index.php/tokenapi/favorites/?"+loginString;
+    $.ajax({
+        type: "GET",
+        dataType : "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        data: loginString,
+        async: false,
+        success: function(data){
+            if (data.message == "Something is wrong with request") {
+            $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:addFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favorilere Ekle</a>');
+            } else if (data.message == "Results available") {
+            var allSizes = [];
+            for (i=0;i<data.results.length;i++) {
+                allSizes.push(data.results[i].listing.id)
+            }
+            if (allSizes.includes(localStorage.propertyID) == true) {
+                $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:remFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favori Listenizde</a>');
+            } else {
+                $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:addFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favorilere Ekle</a>');
+            }
+            }
+            else {
+            $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:addFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favorilere Ekle</a>');
+            }
+        }        
+    });
+            localStorage.removeItem(localStorage.propertyID);    
+} 
+
+//List specific user's listings
+function getUserListing() {
+	var lang = "2";
+	var collector = "";
+    var url = "http://www.makinepark.net/mobile-functions.php?action=getUserListing&user="+localStorage.user+"&language="+lang;
+    console.log(url);
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        async: false,
+        success: function(data){
+        console.log(data);
+        collector = "<ul>";
+        for(var i=0;i<data.length;i++){
+        var details = data[i].json_object;
+        details = details.replace(/field_/g,'');
+        details = $.parseJSON(details);	
+        if (details[36] != "") {
+        var price = details[36];
+        } else {
+        var price = details[37];
+        }
+        var picUrl = data[i].image_filename;
+        if (picUrl == null) {
+            picUrl = "no_image.jpg";
+        }
+        collector += '<li><a onclick="passProductID('+data[i].property_id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+picUrl+'" width="80"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+details[10]+'</div><div class="item-after"></div></div><div class="item-subtitle">'+details[83]+','+details[81]+' model</div><div class="item-text">'+price+' TL</div></div></a></li>';
+        }
+        collector += '</ul>';
+        $("#machine-cat-listing").html(collector);
+        }
+});
+}
+
+//Get browser locale
+console.log(navigator.language);

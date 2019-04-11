@@ -11,8 +11,8 @@ var app  = new Framework7({
   data: function () {
     return {
       user: {
-        firstName: 'John',
-        lastName: 'Doe',
+        firstName: '',
+        lastName: '',
       },
     };
   },
@@ -39,7 +39,7 @@ var loginPopup = app.popup.create({
   backdrop : true,
   closeByBackdropClick : false,
   animate : true,
-  content : '<div class="popup"><a href="#" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Back</a><div class="loginWarning"><p class="fading">You must log in first</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="email" class="text-thiny" placeholder="E-mail" id="loginusername"></div></div></div></li><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="text" class="text-thiny" placeholder="Password" id="loginuserpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Forgot your Password ?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;text-transform:none;">Login</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">You don\'t have an account? Register now</a></div></form></div>',
+  content : '<div class="popup"><a href="#" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Back</a><div class="loginWarning"><p class="fading">Kullanıcı girişi yapmalısınız</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="email" class="text-thiny" placeholder="E-posta" id="loginusername"></div></div></div></li><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="password" class="text-thiny" placeholder="Şifre" id="loginuserpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Şifrenizi mi unuttunuz?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;text-transform:none;">Login</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">You don\'t have an account? Register now</a></div></form></div>',
   // Events
   on: {
     open: function (popup) {
@@ -97,7 +97,7 @@ var path = (location.pathname);
 		var boolchecker = data.token_available;
 		if (boolchecker === true) {
 		} else {
-	    app.dialog.confirm('Your security token has expired. Please log in again.', function () {
+	    app.dialog.confirm('Güvenlik anahtarınızın süresi dolmuş. Lütfen tekrar giriş yapın.', function () {
     	app.router.navigate('/login/');
   		},
   		function () {
@@ -138,9 +138,12 @@ function login(){
         async: false,
         success: function(data){
             if(data.message == "Results available") {
-            $("#loginbutton").text("Login Success!");
+            $("#loginbutton").text("Giriş başarılı");
             localStorage.token = data.token;
+            localStorage.email = email;
+            console.log(localStorage.email);
             localStorage.user = data.user_data.name_surname;
+            console.log(localStorage.user);
             loginPopup.close();
 			app.router.back({
                     force: true//,
@@ -150,26 +153,33 @@ function login(){
                 					
             }
             else {
-                console.log(data);
-                $("#loginbutton").text("Login Failed");
+                $("#loginbutton").text("Giriş başarısız");
            }
         }        
     });
 }    
       
+      
 //Forgot Password
 function forgotPass(){
-
+	console.log("resetting pass");
 	var email = $.trim($("#inputMail").val());
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (reg.test(email) == false) 
+        {
+            alert('Invalid Email Address');
+            return false;
+        }
     var url = "http://makinepark.net/index.php/admin/user/forgetpassword#content";
 	$.post(url, {mail: email}, function(data) {
-	$("#resetbuttonn").text("Processing...");
-	if (data) {
+	$("#resetbuttonn").text("İşleniyor...");
 	var $div = $(data);
 	var messageresult = $div.find(".label").html();
+	$("#resetbuttonn").css("pointer-events","none");
+	$("#resetbuttonn").text("gönderildi");
 	$("#forgotmsg").text(messageresult);
-	$("#resetbuttonn").text("Reset password");
-	}
+	$("#resetmessage").html('<p style="text-align:center">Şifre değiştirme bağlantısı e-posta adresinize gönderildi.</p>');
+	
 	});
     
 }
@@ -738,7 +748,7 @@ function uploadFiles(f) {
 function getUserData() {
 if (localStorage.getItem("token") === null) {
 $("#userGreeting").html("Merhaba, sayın ziyaretçi");
-$("#loginText").html("<a href='/login/' class='panel-close no-animation' style='color:black;'>Login</a> / <a href='/register/' class='panel-close no-animation' style='color:black;'>Register</a></a>");
+$("#loginText").html("<a href='/login/' class='panel-close no-animation' style='color:black;'>Giriş</a> / <a href='/register/' class='panel-close no-animation' style='color:black;'>Kayıt</a></a>");
 } else {
 $("#userGreeting").html("Merhaba, sayın "+localStorage.user+"");
 $("#loginText").html("<p><a href='/profile/' class='panel-close no-animation' style='color:black;'>Profiliniz</a> / <a href='#' onclick='logoutUser();' class='panel-close no-animation' style='color:black;'>Çıkış</a></p>");
@@ -750,9 +760,13 @@ function logoutUser(){
 if (typeof localStorage.getItem("user") !== 'undefined' && localStorage.getItem("user") !== null) {
 localStorage.removeItem("user");
 }
+if (typeof localStorage.getItem("email") !== 'undefined' && localStorage.getItem("email") !== null) {
+localStorage.removeItem("email");
+}
 if (typeof localStorage.getItem("token") !== 'undefined' && localStorage.getItem("token") !== null) {
 localStorage.removeItem("token");
 }
+$("#miniavatardiv").html('<img class="menuavatar" src="../img/default-avatar.png" alt="Profil Fotoğrafı" width="80" height="80">');
 app.router.navigate('/', {
   ignoreCache: true,
   reloadCurrent: true  
@@ -790,7 +804,7 @@ var path = (location.pathname);
 		$('#inputPhone').val(data.results.phone);
 		$('#inputEmail').val(data.results.mail);
 		} else {
-	    app.dialog.confirm('Your security token has expired. Please log in again.', function () {
+	    app.dialog.confirm('Güvenlik anahtarınızın süresi dolmuş. Lütfen tekrar giriş yapın.', function () {
     	app.router.navigate('/login/');
   		},
   		function () {
@@ -802,6 +816,32 @@ var path = (location.pathname);
     });
 }
 }
+
+//Get user avatar for menu
+function getUserMiniAvatar() {
+if (localStorage.email != undefined) {
+var url = "http://www.makinepark.net/mobile-functions.php?action=getUserMiniAvatar&user="+localStorage.email;
+var userminiavatar;
+    $.ajax({
+        type: "GET",
+        dataType : "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        success: function(data){
+		if(data == "nopic") {
+		$("#miniavatardiv").html('<img class="menuavatar" src="../img/default-avatar.png" alt="Profil Fotoğrafı" width="80" height="80">');
+        } else {
+        $("#miniavatardiv").html('<img class="menuavatar" src="http://makinepark.net/files/thumbnail/'+data[0].image_user_filename+'" alt="Profil Fotoğrafı" width="80" height="80">');
+        }		
+        }
+        });
+}
+else {
+$("#miniavatardiv").html('<img class="menuavatar" src="../img/default-avatar.png" alt="Profil Fotoğrafı" width="80" height="80">');
+}
+}
+
 
 //Update user profile
 function updateProfile () {
@@ -918,19 +958,6 @@ var lang = "2";
                 break;
         }
     }
-
-console.log(machineType);
-console.log(machineStatus);
-console.log(priceMin);
-console.log(priceMax);
-console.log(kmMin);
-console.log(kmMax);
-/*
-console.log(modelMin);
-console.log(modelMax);
-*/    
-   
-	
 	var collector = "";
     //URL With km
     /*
@@ -1068,21 +1095,6 @@ function getFavs(){
         collector += '<li><a onclick="passProductID('+data.results[i].listing.id+');" href="#" class="item-link item-content"><div class="item-media"><img src="http://makinepark.net/files/'+data.results[i].listing.image_filename+'" width="80"></div><div class="item-inner"><div class="item-title-row"><div class="item-title">'+data.results[i].listing.json_object.field_10+'</div><div class="item-after"></div></div><div class="item-subtitle">'+data.results[i].listing.json_object.field_83+', '+data.results[i].listing.json_object.field_81+' model</div><div class="item-text">'+data.results[i].listing.field_36_int+' TL</div></div></a></li>';
         }
         $("#favsContainer").html('<ul>'+collector+'</ul>');        
-                         
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
                 } else {
                     $("#favsContainer").html("<p>Favori ilanınız bulunmuyor</p>");
                 }

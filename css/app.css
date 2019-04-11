@@ -42,6 +42,21 @@
 
 .md .toolbar {
     top : unset;
+    font-weight: bold;
+    background: #f1c40f;
+}
+
+.md .toolbar a.tab-link {
+text-transform:none;
+font-weight:bold;
+}
+
+.md .toolbar:not(.toolbar-bottom-md):not(.messagebar)~* .page-content {
+padding-top:0px;
+}
+
+.md .list {
+margin:0px;
 }
 
 a.twins {
@@ -74,11 +89,30 @@ a.active {
 div#scontainer {
 height:125px;
 }
+#profileUpdateMessage {
+text-align:center;
+}
+
+.md .list ul:after {
+background-color:unset;
+}
+
+.md .navbar .right {
+margin-right:30px;
+}
+
+a.formSendButton {
+color: white;
+font-weight:bold;
+background-color: #F1C40F;
+padding: 15px;
+}
 div.swiper-container {
 height:100%;
 }
 img.slideShowImg {
 height:100%;
+width:100%;
 }
 img.productSlideShowImg {
 width:100%;

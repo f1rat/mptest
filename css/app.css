@@ -101,6 +101,29 @@ background-color:unset;
 margin-right:30px;
 }
 
+.ios .list ul:before {
+background-color:unset;
+}
+
+.ios .list ul:after {
+background-color:unset;
+}
+
+.fwdth {
+width : 100%;
+background-color : #F1C40F;
+padding:15px;
+color : white;
+font-weight : bold;
+font-size : 18px;
+border : 0px solid white;
+}
+
+div#contactinfo {
+width:80%;
+margin-left:10%;
+}
+
 a.formSendButton {
 color: white;
 font-weight:bold;

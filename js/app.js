@@ -39,7 +39,7 @@ var loginPopup = app.popup.create({
   backdrop : true,
   closeByBackdropClick : false,
   animate : true,
-  content : '<div class="popup"><a href="#" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Back</a><div class="loginWarning"><p class="fading">Kullanıcı girişi yapmalısınız</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="email" class="text-thiny" placeholder="E-posta" id="loginusername"></div></div></div></li><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="password" class="text-thiny" placeholder="Şifre" id="loginuserpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Şifrenizi mi unuttunuz?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;text-transform:none;">Login</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">You don\'t have an account? Register now</a></div></form></div>',
+  content : '<div class="popup"><a href="/" class="link popup-close" style="margin-left:5%;margin-top:5%;"><i class="icon icon-back"></i> Geri</a><div class="loginWarning"><p class="fading">Kullanıcı girişi yapmalısınız</p></div><form><div class="list margin-bottom-30 samosa"><ul class="no-border"><li><div class="item-content"><div class="input-icon item-media"><i class="flaticon-email"></i></div><div class="item-inner no-margin"><div class="item-input" style="width:100%;"><input type="email" class="text-thiny" placeholder="E-posta" id="loginusername"></div></div></div></li><li><div class="item-content" style="width:100%;"><div class="input-icon item-media"><i class="flaticon-key"></i></div><div class="item-inner no-margin"><div class="item-input"><input type="password" class="text-thiny" placeholder="Şifre" id="loginuserpass"></div></div></div></li></ul><a href="/remember-password/" class="text-underline text-extrat-thiny gray-text" style="margin-left:10px;line-height:45px;">Şifrenizi mi unuttunuz?</a></div><div class="row btn-form-group margin-bottom-10" style="text-align:center"><a href="javascript:login();" class="button button-fill color-black text-thiny" id="loginbutton" style="height:40px;width:90%;margin-bottom:5px;margin-left: 5%;line-height: 40px;text-transform:none;">Giriş</a><a href="#" class="button button-fill color-facebook text-thiny" style="height:40px;width:90%;margin-left: 5%;line-height: 40px;">Facebook</a></div><div class="text-center margin-bottom-15"><br /><a href="#" onclick="javascript:popupRegister()" class="text-underline text-extrat-thiny gray-text" style="width:90%;margin-top:5px;margin-left:5%;">Kullanıcı hesabınız yok mu? Kayıt olun</a></div></form></div>',
   // Events
   on: {
     open: function (popup) {
@@ -141,9 +141,7 @@ function login(){
             $("#loginbutton").text("Giriş başarılı");
             localStorage.token = data.token;
             localStorage.email = email;
-            console.log(localStorage.email);
             localStorage.user = data.user_data.name_surname;
-            console.log(localStorage.user);
             loginPopup.close();
 			app.router.back({
                     force: true//,
@@ -1045,11 +1043,9 @@ function sendInquiryForm() {
       type: 'POST',
       data : $('#inqForm').serialize(),
       success: function(data){
-          console.log(data);
         var parser = new DOMParser();
         // Parse the text
         var doc = parser.parseFromString(data, "text/html");
-          console.log(doc);
         var docArti = doc.querySelector('.alert');
           if (docArti == null) {
               $('#messageDisplay').css('color','green');
@@ -1184,12 +1180,39 @@ function checkFav(g){
             localStorage.removeItem(localStorage.propertyID);    
 } 
 
+//Send Contact Form
+function sendContactForm() {
+var isim = $('#isim').val();
+var eposta = $('#eposta').val();
+var telefon = $('#telefon').val();
+var mesaj = $('#mesaj').val();
+    $.ajax({
+      url: 'http://www.makinepark.net/sendmail.php?isim='+isim+'&eposta='+eposta+'&telefon='+telefon+'&mesaj='+mesaj,
+      type: 'POST',
+      dataType: 'json',
+      crossDomain: true,
+      cache: false,
+      async: false,
+      success: function(data){
+      console.log("sent");
+      console.log(data);
+      $('#isim').val('');
+      $('#eposta').val('');
+      $('#telefon').val('');
+      $('#mesaj').val('');
+      $('#submit-form-button').text('Mesajınız gönderildi');
+      $("#submit-form-button").css("pointer-events","none");
+	}
+    });
+    return false;
+ };   
+
+
 //List specific user's listings
 function getUserListing() {
 	var lang = "2";
 	var collector = "";
     var url = "http://www.makinepark.net/mobile-functions.php?action=getUserListing&user="+localStorage.user+"&language="+lang;
-    console.log(url);
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -1219,6 +1242,57 @@ function getUserListing() {
         $("#machine-cat-listing").html(collector);
         }
 });
+}
+
+function getFaqs() {
+var collector = "";
+var url = "http://www.makinepark.net/mobile-functions.php?action=getFaqs";
+$.ajax({
+        type: "POST",
+        dataType: "json",
+        crossDomain: true, 
+        cache: false,
+        url: url,
+        async: false,
+        success: function(data){
+   		for(var i=0;i<data.length-1;i++){
+		collector += '<div class="accordion-item"><div class="accordion-item-toggle"><i class="icon icon-plus">+</i><i class="icon icon-minus">-</i><span>'+data[i].question+'</span></div><div class="accordion-item-content"><p>'+data[i].answer+'</p></div></div>';
+   		}
+        $('#faqscarrier').html(collector);
+        }
+});
+$('.accordion-item-toggle').css({
+    "padding": "0px 15px",
+    "font-size": "17px",
+    "color": "#000",
+    "border-bottom": "1px solid rgba(0, 0, 0, 0.15)",
+    "cursor": "pointer",
+    "margin-bottom":"15px",
+    "padding-bottom":"15px"});
+$('i.icon-plus').css({    
+	"display": "inline-block",
+    "width": "22px",
+    "height": "22px",
+    "border": "1px solid #000",
+    "border-radius": "100%",
+    "line-height": "20px",
+    "text-align": "center",
+    "position":"fixed"});
+$('i.icon-minus').css({    
+	"display": "none",
+    "width": "22px",
+    "height": "22px",
+    "border": "1px solid #000",
+    "border-radius": "100%",
+    "line-height": "20px",
+    "text-align": "center"});
+$('.accordion-item-toggle span').css({
+	"display": "inline-block",
+    "margin-left": "35px"});
+$('.accordion-item-content p').css({
+	"display": "inline-block",
+    "font-size":"1.2em",
+    "text-align":"justify"});
 }
 
 //Get browser locale

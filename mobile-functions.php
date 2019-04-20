@@ -305,30 +305,21 @@ while($row = $result->fetch_assoc()) {
 }
 echo json_encode($data);
 }
+}
 
-/*
-//$userid = '"'.$userid.'"';
-$s = "SELECT `user_id` FROM `token_api` WHERE `token`=$userid";
-echo $s;
-echo "------";
-$resu = $con->query($s);
-    if ($resu->num_rows > 0) {
-    echo json_encode($resu);
-    echo "..........".$resu;
-    $useridn = $resu;
-    } else { echo "//noresult//";}
-$sq = "SELECT `image_user_filename` FROM `user` WHERE `id`=".$useridn;
-echo $sq;
-$resul = $con->query($sq);
-    if ($resul->num_rows > 0) {
-    echo "json";
-    echo json_encode($resul);
-	echo "resul";
-    echo $resul;
-    } else {
-    echo "nopic";
-    }
-    */
+
+
+//Get faqs
+else if ($postdata == 'getFaqs') {
+$data = Array();
+$sql = "SELECT * FROM `qa_lang` WHERE `language_id`='2'";
+$result = $con->query($sql);
+if ($result->num_rows > 0) {
+while($row = $result->fetch_assoc()) {
+	$data[] = $row;
+}
+echo json_encode($data);
+}
 }
 
 

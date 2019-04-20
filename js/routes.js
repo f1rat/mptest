@@ -75,7 +75,12 @@ routes = [
     },
     {
       path: '/faqs/',
-      url: './pages/faqs.html'
+      url: './pages/faqs.html',
+      on: {
+      pageInit: function (e, page) {
+            getFaqs();
+      },
+      }
     },
     {
       path: '/how-it-works/',
@@ -88,6 +93,10 @@ routes = [
     {
       path: '/login/',
       url: './pages/login.html'
+    },
+    {
+      path: '/contact/',
+      url: './pages/contact.html'
     },
     {
       path: '/product-category/',

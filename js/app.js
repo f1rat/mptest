@@ -160,12 +160,11 @@ function login(){
       
 //Forgot Password
 function forgotPass(){
-	console.log("resetting pass");
 	var email = $.trim($("#inputMail").val());
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
         if (reg.test(email) == false) 
         {
-            alert('Invalid Email Address');
+            app.dialog.alert('Geçersiz e-posta adresi','Hata');
             return false;
         }
     var url = "http://makinepark.net/index.php/admin/user/forgetpassword#content";
@@ -202,12 +201,20 @@ function registerNewUser(){
         success: function(data){
 		$("#registerbutton").text("Sign Up");
 		if (data.message == "Register success"){
-		$("#registerMessage").text("Registration successful. You may log in now.");
+  		app.dialog.alert('Başarıyla kayıt oldunuz. Lütfen giriş yapın.','Kayıt Başarılı',function () { app.router.navigate('/login/',{ reloadCurrent: true,pushState: false }); });
+		} else if (data.message == "Invalid email") {
+		$("#registerMessage").text("Geçersiz e-posta adresi");
+		} else if (data.message == "Longer password required") {
+		$("#registerMessage").text("Şifreniz asgari 8 karakter olmalıdır");
 		} else {
 		$("#registerMessage").text(data.message);
 		}
         }        
     });
+}
+
+function goToLogin () {
+	alert("he");
 }
 
 //Get slides
@@ -368,15 +375,12 @@ localStorage.newsID = e;
 //Get clicked news id and store it
 function passProductID(e){
 localStorage.propertyID = e;
-console.log(e);
 mainView.router.navigate('/product-single/')
 }
 
 //Display full product info
 function displayProduct() {
 var propertyID = localStorage.propertyID;
-console.log("propertyID");
-console.log(propertyID);
 var lang = "2";
     var url = "http://www.makinepark.net/mobile-functions.php?action=getSinglePropertyData&propertyID="+localStorage.propertyID+"&language="+lang;
     	$.ajax({
@@ -965,9 +969,6 @@ var lang = "2";
     var url = "http://www.makinepark.net/mobile-functions.php?action=detailedSearch&machineType="+machineType+"&machineStatus="+machineStatus+"&priceMin="+priceMin+"&priceMax="+priceMax+"&kmMin="+kmMin+"&kmMax="+kmMax+"&modelMin="+modelMin+"&modelMax="+modelMax+"&language="+lang;
     */
     var url = "http://www.makinepark.net/mobile-functions.php?action=detailedSearch&machineType="+machineType+"&machineStatus="+machineStatus+"&priceMin="+priceMin+"&priceMax="+priceMax+"&kmMin="+kmMin+"&kmMax="+kmMax+"&language="+lang;
-    console.log("url");
-    console.log(url);
-    console.log("/url");
     $.ajax({
         type: "POST",
         dataType: "json",
@@ -976,10 +977,8 @@ var lang = "2";
         url: url,
         async: false,
         success: function(data){
-        console.log(data);
         collector = "<ul>";
         for(var i=0;i<data.length;i++){
-            console.log(i);
         var details = data[i].json_object;
         details = details.replace(/field_/g,'');
         details = $.parseJSON(details);	
@@ -992,8 +991,6 @@ var lang = "2";
         }
         collector += '</ul>';
         var serpil = document.getElementById('seachResutlsDiv');
-        console.log("serpil");
-        console.log(serpil.html);
         $("#seachResutlsDiv").html("");
         $("#seachResutlsDiv").html(collector);
         }
@@ -1004,8 +1001,6 @@ var lang = "2";
 function doInquiry(s){
 var collector = "";
 var whichProduct = localStorage.propertyID;
-console.log("whichProduct");
-console.log(whichProduct);
 fetch('http://makinepark.net/index.php/property/'+ whichProduct +'/tr/satilik_forklift')
     .then(
     function(response) {
@@ -1062,8 +1057,6 @@ function sendInquiryForm() {
               document.getElementsByName('captcha').val('');
           } else {
           var docArticle = docArti.innerHTML;
-          console.log("docArticle");
-          console.log(docArticle);
           $('#messageDisplay').html(docArticle);
               }
       }
@@ -1079,7 +1072,6 @@ function sendInquiryForm() {
 function getFavs(){
         var loginString = "token="+localStorage.token+"&lang_code='tr'";
         var url = "http://www.makinepark.net/index.php/tokenapi/favorites/?"+loginString;
-    console.log(url);
     $.ajax({
         type: "GET",
         dataType : "json",
@@ -1090,7 +1082,6 @@ function getFavs(){
         async: false,
         success: function(data){
             if(data.message == "Results available") {
-                console.log(data); 
                 if (data.results.length > 0 ) {
         var resultcount = data.results.length;
         var collector = "";
@@ -1107,7 +1098,6 @@ function getFavs(){
                 
             }
             else {
-                console.log(data);
                 $("#favsContainer").html(data);
            }
         }        
@@ -1119,7 +1109,6 @@ function addFav(w){
     logChk();
         var loginString = "token="+localStorage.token+"&lang_code='tr'&property_id="+w;
         var url = "http://www.makinepark.net/index.php/tokenapi/favorites/POST/?"+loginString;
-    console.log(url);
     $.ajax({
         type: "GET",
         dataType : "json",
@@ -1129,7 +1118,6 @@ function addFav(w){
         data: loginString,
         async: false,
         success: function(data){
-            console.log(data);
         $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:remFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favori Listenizde</a>');
         }        
     });
@@ -1140,7 +1128,6 @@ function remFav(w){
     logChk();
         var loginString = "token="+localStorage.token+"&lang_code='tr'&property_id="+w;
         var url = "http://www.makinepark.net/index.php/tokenapi/favorites/DELETE/?"+loginString;
-    console.log(url);
     $.ajax({
         type: "GET",
         dataType : "json",
@@ -1150,7 +1137,6 @@ function remFav(w){
         data: loginString,
         async: false,
         success: function(data){
-            console.log(data);
         $("#msgFavBtnDiv").html('<a href="/inquire/" class="button button-fill color-deeporange text-extrat-thiny twins">Mesaj Gönder</a>  <a onclick="javascript:addFav('+localStorage.propertyID+');" class="button button-fill color-deeporange text-extrat-thiny twins" id="favButtonBey">Favorilere Ekle</a>');
         }        
     });
@@ -1204,8 +1190,6 @@ var mesaj = $('#mesaj').val();
       cache: false,
       async: false,
       success: function(data){
-      console.log("sent");
-      console.log(data);
       $('#isim').val('');
       $('#eposta').val('');
       $('#telefon').val('');
@@ -1231,7 +1215,6 @@ function getUserListing() {
         url: url,
         async: false,
         success: function(data){
-        console.log(data);
         collector = "<ul>";
         for(var i=0;i<data.length;i++){
         var details = data[i].json_object;

@@ -109,6 +109,9 @@ background-color:unset;
 background-color:unset;
 }
 
+.md .button {
+text-transform : none;
+}
 .fwdth {
 width : 100%;
 background-color : #F1C40F;

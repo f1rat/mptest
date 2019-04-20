@@ -107,7 +107,7 @@ routes = [
       url: './pages/product-single.html',
       on: {
       pageInit: function (e, page) {
-            displayProduct();
+    	displayProduct();
       },
       }
     },

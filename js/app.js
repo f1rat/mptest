@@ -368,12 +368,15 @@ localStorage.newsID = e;
 //Get clicked news id and store it
 function passProductID(e){
 localStorage.propertyID = e;
+console.log(e);
 mainView.router.navigate('/product-single/')
 }
 
 //Display full product info
 function displayProduct() {
 var propertyID = localStorage.propertyID;
+console.log("propertyID");
+console.log(propertyID);
 var lang = "2";
     var url = "http://www.makinepark.net/mobile-functions.php?action=getSinglePropertyData&propertyID="+localStorage.propertyID+"&language="+lang;
     	$.ajax({
@@ -1000,7 +1003,9 @@ var lang = "2";
 //Do Inquiry
 function doInquiry(s){
 var collector = "";
-var whichProduct = localStorage.productID;
+var whichProduct = localStorage.propertyID;
+console.log("whichProduct");
+console.log(whichProduct);
 fetch('http://makinepark.net/index.php/property/'+ whichProduct +'/tr/satilik_forklift')
     .then(
     function(response) {
@@ -1024,7 +1029,7 @@ fetch('http://makinepark.net/index.php/property/'+ whichProduct +'/tr/satilik_fo
         $("textarea#message").css({"height":"6em","font-size":"16px","margin":"5%","border-bottom":"1px dotted black","padding-left":"10px","width":"90%"});
         $('img').css("margin-left","15%");
         $('button').css({"height":"3em","width":"60%","margin-left":"20%","margin-top":"5%","background-color":"#f1c40f","color":"white","font-weight":"bold","font-size":"1.1em"});
-        $('#inqContent').append("<input type='button' value='hele' onclick='javascript:sendInquiryForm()'/>");
+//        $('#inqContent').append("<input type='button' value='hele' onclick='javascript:sendInquiryForm()'/>");
         sendInquiryForm();
     })
     .catch(function(err) {  
@@ -1048,8 +1053,13 @@ function sendInquiryForm() {
         var doc = parser.parseFromString(data, "text/html");
         var docArti = doc.querySelector('.alert');
           if (docArti == null) {
-              $('#messageDisplay').css('color','green');
+              $('#messageDisplay').css({'color':'green','font-size':'20px','text-align':'center'});
               $('#messageDisplay').html('<p>Mesajınız İletildi.</p>');
+              $('#firstname').val('');
+              $('#email').val('');
+              $('#address').val('');
+              $('#message').val('');
+              document.getElementsByName('captcha').val('');
           } else {
           var docArticle = docArti.innerHTML;
           console.log("docArticle");
@@ -1061,7 +1071,7 @@ function sendInquiryForm() {
     return false;
 
  };   
-    localStorage.removeItem("localStorage.productID");
+//    localStorage.removeItem("localStorage.productID");
 
 };
 

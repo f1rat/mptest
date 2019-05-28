@@ -30,7 +30,7 @@ var app  = new Framework7({
 var mainView = app.views.create('.view-main', {
   url: '/',
   cache: true,
-  preloadPreviousPage: false,
+  preloadPreviousPage: true,
   iosSwipeBack: false
 });
 
@@ -731,6 +731,16 @@ if (typeof u !== 'undefined') {console.log("u var");console.log(url+u);} else {c
 		}
 		});
 
+    $(document).on('change', '#watchThis.item-after', function() {
+        alert("hey");
+        console.log("hey");
+    });
+    
+    function watchForListingStatusChange () {
+        alert("working");
+        
+    }
+    
 $(document).on('change', '#new-image', function() 
 {
     //focus

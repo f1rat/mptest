@@ -13,37 +13,61 @@
       <div class="list samosa">
          <!-- First group-->
          <div class="list-group">
-            <ul>
-               <li class="item-content item-input">
-                  <div class="item-inner">
-                     <div class="item-title">Makine Kategorisi</div>
-                     <div class="item-after"><span class="inputTitle" id="machineCatDropDown"><select name="listingCategory" id="newlistingCategory"><option value="Core Drill">Core Drill</option></select></span></div>
-                  </div>
-               </li>
+            <ul>     
+                <li>
+  <a class="item-link smart-select smart-select-init" data-open-in="sheet">
+    <select name="listingCategory" id="newlistingCategory">
+    </select>
+    <div class="item-content">
+      <div class="item-inner">
+        <div class="item-title">Makine Tipi</div>
+      </div>
+    </div>
+  </a>
+</li>
+
                <li class="item-content item-input">
                   <div class="item-inner">
                      <div class="item-title">İlan Başlığı</div>
                      <div class="item-after"><span class="inputTitle"><input class="cFormsInput" type="text" id="newProductTitle"/></span></div>
                   </div>
                </li>
-                <li class="item-content item-input">
-                  <div class="item-inner">
-                     <div class="item-title">İlan Tipi</div>
-                     <div class="item-after"><span class="inputTitle"><select name="listingStatus" id="listingStatus"><option value="For Sale">Satılık</option><option value="For Rent">Kiralık</option></select></span></div>
-                  </div>
-               </li>
-               <li class="item-content item-input">
-                  <div class="item-inner">
-                     <div class="item-title">Makine Durumu</div>
-                     <div class="item-after"><span class="inputTitle"><select name="listingCondition" id="listingCondition"><option value="New">Yeni</option><option value="Used">İkinci El</option></select></span></div>
-                  </div>
-               </li>
-			   <li class="item-content item-input">
-                  <div class="item-inner">
-                     <div class="item-title">Yakıt Tipi</div>
-                     <div class="item-after"><span class="inputTitle"><select name="listingStatus" id="newProductFuelType"><option value="LPG">LPG</option><option value="Benzin">Benzin</option><option value="Dizel">Dizel</option><option value="Elektrik">Elektrik</option></select></span></div>
-                  </div>
-               </li>
+<li><a class="item-link smart-select smart-select-init" data-open-in="sheet">
+    <select name="listingStatus" id="listingStatus">
+      <option value="For Sale">Satılık</option>
+        <option value="For Rent">Kiralık</option>
+    </select>
+    <div class="item-content">
+      <div class="item-inner">
+        <div class="item-title">İlan Tipi</div>
+          <div class="item-after" id="watchThis"></div>
+      </div>
+    </div>
+  </a>
+</li>
+<li><a class="item-link smart-select smart-select-init" data-open-in="sheet">
+    <select  name="listingCondition" id="listingCondition">
+      <option value="New">Yeni</option>
+      <option value="Used">İkinci El</option>
+    </select>
+    <div class="item-content">
+      <div class="item-inner">
+        <div class="item-title">Makine Durumu</div>
+      </div>
+    </div>
+  </a>
+</li>
+                <li><a class="item-link smart-select smart-select-init" data-open-in="sheet">
+    <select name="listingStatus" id="newProductFuelType">
+      <option value="LPG">LPG</option><option value="Benzin">Benzin</option><option value="Dizel">Dizel</option><option value="Elektrik">Elektrik</option>
+    </select>
+    <div class="item-content">
+      <div class="item-inner">
+        <div class="item-title">Yakıt Tipi</div>
+      </div>
+    </div>
+  </a>
+</li>
                <li class="item-content item-input">
                   <div class="item-inner">
                      <div class="item-title">Model Yılı</div>

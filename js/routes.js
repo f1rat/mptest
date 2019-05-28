@@ -4,11 +4,17 @@ routes = [
     url: './index.html',
     on: {
     pageInit: function (e, page) {
-    	getSlides();
+        getSlideso();
     	getLatestNews();
     	getLatestListings();
     	getUserData();
     	}
+    },
+      pageBeforeIn: function (e, page) {
+        app.preloader.show();
+    },
+    pageAfterIn: function (e, page) {
+        app.preloader.hide();
     },
   },
   {
@@ -38,6 +44,9 @@ routes = [
       logChk("add-product.html");
       getCatListingForDropDown();
       },
+      pageAfterIn: function (e, page) {
+      watchForListingTypeChange();
+      }
       }
     },
     {
@@ -67,6 +76,12 @@ routes = [
       pageInit: function (e, page) {
             getCatListing();
       },
+      pageBeforeIn: function (e, page) {
+        app.preloader.show();
+    },
+    pageAfterIn: function (e, page) {
+        app.preloader.hide();
+    },
       }
     },
       {
@@ -167,15 +182,6 @@ routes = [
       },
       }
     },      
-  {
-    path: '/test/',
-    url: './pages/test.html',
-    on: {
-    pageInit: function (e, page) {
-          console.log("teh");
-    },
-    }
-  },
   {
     path: '/main/',
     url: './pages/main.html',
